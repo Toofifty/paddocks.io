@@ -6,7 +6,196 @@ body {
 #app {
     height: 100vh;
     width: 100vw;
-    padding: 0;
+    padding: 50px;
     margin: 0;
+    background: #111;
+    box-sizing: border-box;
+}
+
+.board {
+    display: grid;
+    height: calc(100% - 100px);
     background: #222;
+    box-sizing: border-box;
+}
+
+.gate-container {
+    position: relative;
+}
+.gate-container:not(.taken) {
+    cursor: pointer;
+}
+.gate-container:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+/* posts */
+.show-posts .gate-container:before,
+.show-posts .gate-container:after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    background: white;
+    z-index: 2;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+/* bottom-left */
+.gate-container.bltr:before {
+    bottom: -6px;
+    left: -6px;
+}
+/* top-right */
+.gate-container.bltr:after {
+    top: -6px;
+    right: -6px;
+}
+/* top-left */
+.gate-container.tlbr:before {
+    top: -6px;
+    left: -6px;
+}
+/* bottom-right */
+.gate-container.tlbr:after {
+    bottom: -6px;
+    right: -6px;
+}
+
+.gate {
+    width: 4px;
+    background: transparent;
+    height: 140%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    position: absolute;
+    transition: background 0.25s;
+    z-index: 1;
+    border-radius: 50px;
+    border: 1px solid transparent;
+}
+.gate-container.tlbr .gate {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+.turn-0 .gate-container:not(.taken):hover .gate {
+    background: #69D2E7;
+    opacity: 0.5;
+}
+.turn-1 .gate-container:not(.taken):hover .gate {
+    background: #FA6900;
+    opacity: 0.5;
+}
+.turn-2 .gate-container:not(.taken):hover .gate {
+    background: #E0E4CC;
+    opacity: 0.5;
+}
+.turn-3 .gate-container:not(.taken):hover .gate {
+    background: #A7DBD8;
+    opacity: 0.5;
+}
+.turn-4 .gate-container:not(.taken):hover .gate {
+    background: #F38630;
+    opacity: 0.5;
+}
+
+.gate-container .fill {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 1px solid transparent;
+    animation: fade-in 0.25s;
+}
+.gate-container .fill.tl {
+    clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 100% 0%);
+}
+.gate-container .fill.tr {
+    clip-path: polygon(0% 0%, 100% 100%, 100% 100%, 100% 0%);
+}
+.gate-container .fill.br {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 100% 0%);
+}
+.gate-container .fill.bl {
+    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 0% 0%);
+}
+
+.gate-container.player-0 .gate,
+.fill-0.fill {
+    background: #69D2E7;
+    border-color: #69D2E7;
+    opacity: 1;
+}
+.gate-container.player-1 .gate,
+.fill-1.fill {
+    background: #FA6900;
+    border-color: #FA6900;
+    opacity: 1;
+}
+.gate-container.player-2 .gate,
+.fill-2.fill {
+    background: #A7DBD8;
+    border-color: #A7DBD8;
+    opacity: 1;
+}
+.gate-container.player-3 .gate,
+.fill-3.fill {
+    background: #E0E4CC;
+    border-color: #E0E4CC;
+    opacity: 1;
+}
+.gate-container.player-4 .gate,
+.fill-4.fill {
+    background: #F38630;
+    border-color: #F38630;
+    opacity: 1;
+}
+
+.toggle-posts {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    border: 2px solid white;
+    margin: 10px;
+    text-align: right;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.scoreboard {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    border: 2px solid white;
+    margin: 10px;
+    text-align: right;
+    border-radius: 5px;
+}
+.scoreboard span {
+    font-weight: bold;
+}
+#score-0 {
+    color: #69D2E7;
+}
+#score-1 {
+    color: #FA6900;
+}
+#score-2 {
+    color: #A7DBD8;
+}
+#score-3 {
+    color: #E0E4CC;
+}
+#score-4 {
+    color: #F38630;
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 100; }
 }
