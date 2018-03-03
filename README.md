@@ -6,7 +6,10 @@ Compile Typescript
 # install globally
 npm i -g ts-node typescript
 
-# watch
+# watch server
 tsc -w -p server.ts
+
+# watch client
+tsc -w -p client/js/main.ts
 ```
 
