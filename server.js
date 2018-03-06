@@ -48,7 +48,13 @@ io.on('connection', function (socket) {
     })
     socket.on('place', function ({ key, x, y, playerID }) {
         // if no paddock was captured, change player
-        let changePlayer = !lobbies[key].place(x, y, playerID)
+        let changePlayer
+        try {
+            changePlayer = !lobbies[key].place(x, y, playerID)
+        } catch (e) {
+            // if already taken, do nothing
+            return
+        }
         this.emit('place', { key, x, y, playerID })
         this.broadcast.emit('place', { key, x, y, playerID })
         if (changePlayer) {
@@ -105,6 +111,7 @@ function Lobby (key, gameSize, playerCount) {
         return this.board[y][x]
     }
     this.place = (x, y, playerID) => {
+        if (this.getGate(x, y).taken) throw new Error('already taken')
         this.getGate(x, y).taken = true
         let setTop = []
         let setBottom = []
