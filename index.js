@@ -6,7 +6,7 @@ const _ = require('lodash')
 const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
-const PORT = 3000
+const PORT = 3004
 
 const lobbies = {}
 
