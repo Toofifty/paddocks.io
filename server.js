@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const shortid = require('shortid')
+const _ = require('lodash')
 
 const app = express()
 const http = require('http').Server(app)
@@ -24,7 +25,7 @@ io.on('connection', function (socket) {
     console.log(socket.id + ' connected')
     socket.on('new lobby', ({ size, players }) => {
         const key = shortid.generate()
-        lobbies[key] = new Lobby(size, players)
+        lobbies[key] = new Lobby(key, size, players)
         this.emit('lobby confirm', key)
     })
     socket.on('join lobby', (key) => {
@@ -56,12 +57,18 @@ io.on('connection', function (socket) {
             this.broadcast.emit('set player', nextPlayer)
         }
     })
+    socket.on('lobby list', function () {
+        this.emit('lobby list', {
+            lobbies: _(lobbies).filter(v => !v.full()).map(v => v.key).value()
+        })
+    })
 })
 
-function Lobby (gameSize, playerCount) {
+function Lobby (key, gameSize, playerCount) {
     this.gameSize = gameSize
     this.playerCount = playerCount
     this.connectedPlayers = []
+    this.key = key
     this.board = (() => {
         let temp = []
         for (let j = 0; j < gameSize; j++) {

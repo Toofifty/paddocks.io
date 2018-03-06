@@ -6,6 +6,7 @@ const DEFAULT_SIZE = 12
 const DEFAULT_PLAYER_COUNT = 2
 
 function localGame (gameSize, playerCount) {
+    gameType = 'local'
     if (gameSize % 2 || gameSize % 2) {
         console.error('Game dimensions must be even')
         return

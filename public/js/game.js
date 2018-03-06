@@ -141,7 +141,7 @@ const incrementScore = (player) => {
     for (let i = 0; i < PLAYER_COUNT; i++) {
         sum += scores[i]
     }
-    if (sum >= MAX_SCORE) {
+    if (sum >= (GAME_SIZE / 2) * (GAME_SIZE / 2) + ((GAME_SIZE / 2) - 1) * ((GAME_SIZE / 2) - 1)) {
         gameOver()
     }
 }
@@ -208,6 +208,6 @@ const initScoreboard = (playerCount) => {
         scoreboard.append($('<div class="score">Player ' + i + ': <span id="score-' + i + '">0</span></div>'))
     }
     scoreboard.append($('<hr/>'))
-    scoreboard.append($('<div class="score">Maximum: <span id="score-max">' + MAX_SCORE + '</span></div>'))
+    scoreboard.append($('<div class="score">Maximum: <span id="score-max">' + ((GAME_SIZE / 2) * (GAME_SIZE / 2) + ((GAME_SIZE / 2) - 1) * ((GAME_SIZE / 2) - 1)) + '</span></div>'))
     return scoreboard
 }

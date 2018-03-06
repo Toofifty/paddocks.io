@@ -11,12 +11,16 @@ body {
     background: #111;
     box-sizing: border-box;
 }
+#app.current-player .board {
+    border: 1px solid green;
+}
 
 .board {
     display: grid;
     height: calc(100% - 100px);
     background: #222;
     box-sizing: border-box;
+    border: 1px solid transparent;
 }
 
 .gate-container {
@@ -229,7 +233,6 @@ body {
     border: 2px solid #222;
     text-align: center;
     border-radius: 5px;
-    transition: 0.25s;
     cursor: pointer;
     margin: 10px;
     font-size: 1em;
@@ -248,5 +251,30 @@ body {
 }
 .menu-container .online-game:hover {
     background: #FA6900;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+}
+
+ul li a {
+    text-decoration: none;
+    border: 2px solid #222;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    color: #222;
+    display: inline-block;
+    width: 150px;
+    margin-top: 10px;
+    font-family: 'Menlo', 'Monaco', monospace;
+}
+
+ul li a:hover {
+    background: #222;
     color: white;
 }

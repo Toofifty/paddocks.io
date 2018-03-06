@@ -1,7 +1,8 @@
 /** CONFIG */
 
 // dimensions must be even
-const GAME_SIZE = 12
+let GAME_SIZE = 12
+let gameType = 'none'
 const PLAYER_COUNT = 2
 
 /** END CONFIG */
@@ -10,6 +11,8 @@ const MAX_SCORE = (GAME_SIZE / 2) * (GAME_SIZE / 2) + ((GAME_SIZE / 2) - 1) * ((
 
 let currentPlayer = 0
 let scores = Array(PLAYER_COUNT).fill(0)
+
+let socket = io()
 
 const menu = () => {
     const container = $('<div class="menu-container">')
@@ -23,12 +26,12 @@ const menu = () => {
     container.append(onlineBtn)
     $('#app').append(container)
     localBtn.click(() => {
-        localGame(parseInt($('input[name=size]').val()), parseInt($('input[name=players]').val()))
+        GAME_SIZE = parseInt($('input[name=size]').val())
+        localGame(GAME_SIZE, parseInt($('input[name=players]').val()))
         window.history.pushState('', 'Paddock local game', '/local')
         container.remove()
     })
     onlineBtn.click(() => {
-        let socket = io()
         socket.emit('new lobby', {
             size: parseInt($('input[name=size]').val()),
             players: parseInt($('input[name=players]').val())
@@ -41,6 +44,16 @@ const menu = () => {
 
 $(() => {
     let path = window.location.pathname
+    // ask for lobby list
+    socket.emit('lobby list')
+    // receive
+    socket.once('lobby list', ({ lobbies }) => {
+        let ul = $('<ul>')
+        for (l in lobbies) {
+            ul.append('<li><a href="/' + lobbies[l] + '">Join <strong>' + lobbies[l] + '</strong></a></li>')
+        }
+        $('.menu-container').append(ul)
+    })
     if (path === '/') {
         menu()
     } else if (path === '/local') {
