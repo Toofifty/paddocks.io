@@ -24,11 +24,12 @@ app.get('/', (req, res) => {
   res.send('Hi :)');
 });
 
+// const on = (socket: )
+
 io.on('connection', (socket) => {
   console.log(socket.id, 'connected');
 
   socket.on('query-lobbies', () => {
-    console.log('got query-lobbies');
     io.emit(
       'query-lobbies-response',
       Object.entries(lobbies)
@@ -41,6 +42,53 @@ io.on('connection', (socket) => {
     const id = nanoid();
     lobbies[id] = new Lobby(id, socket.id);
     io.emit('lobby-data', lobbies[id].getData());
+    socket.join(id);
+    console.log('create lobby', id);
+  });
+
+  socket.on('join-lobby', (id) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      lobby.join(socket.id);
+      io.emit('lobby-data', lobby.getData());
+      socket.join(id);
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
+  socket.on('set-lobby-option', ([id, key, value]) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      if (!lobby.isHost(socket.id)) {
+        throw new Error('Only the lobby host can change settings');
+      }
+      lobby.setOption(key, value);
+      io.to(id).emit('lobby-data', lobby.getData());
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
+  socket.on('disconnect', () => {
+    Object.entries(lobbies).forEach(([lobbyId, lobby]) => {
+      if (lobby.hasPlayer(socket.id)) {
+        if (lobby.leave(socket.id)) {
+          console.log('destroy lobby', lobbyId);
+          delete lobbies[lobbyId];
+        } else {
+          io.to(lobbyId).emit('lobby-data', lobby.getData());
+        }
+      }
+    });
   });
 });
 

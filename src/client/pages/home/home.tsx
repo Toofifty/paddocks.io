@@ -1,14 +1,14 @@
 import { Loader, Stack, Text, Title } from '@mantine/core';
 import { Box, Button } from '../../components';
 import { socket } from '../../socket';
-import { useLobbyData } from '../../hooks';
 
 import { useLobbiesQuery } from './use-lobbies-query';
+import { useLobbyRedirect } from './use-lobby-redirect';
 
 export const HomePage = () => {
   const lobbies = useLobbiesQuery();
 
-  useLobbyData();
+  useLobbyRedirect();
 
   const onHost = () => {
     socket.emit('host');
