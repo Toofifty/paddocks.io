@@ -1,0 +1,1 @@
+export const LobbyPage = () => <div>Lobby</div>

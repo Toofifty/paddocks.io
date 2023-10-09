@@ -1,0 +1,21 @@
+.button {
+  font-size: 24px;
+  font-weight: 400;
+
+  background-color: var(--p-button-color);
+  border-color: var(--p-border-color);
+  border-width: 4px;
+
+  transition: 0.1s;
+  box-shadow: 0 4px 0 0px var(--p-shadow-color);
+
+  &:hover {
+    box-shadow: 0 8px 0 2px var(--p-shadow-color);
+    transform: translateY(-4px);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 2px var(--p-shadow-color);
+  }
+}
