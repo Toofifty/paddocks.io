@@ -7,18 +7,22 @@ import {
   Title,
 } from '@mantine/core';
 import { Box, Button, Header, Player } from '../../components';
-import { useLobbyQuery } from './use-lobby-query';
 import { useParams } from 'react-router-dom';
 import { socket } from '../../socket';
-import { useErrorMessages } from '../../util';
+import { useErrorMessages, useLobby } from '../../util';
 import { useRedirectOnStart } from './use-redirect-on-start';
+import { useEffect } from 'react';
 
 export const LobbyPage = () => {
   useErrorMessages();
+  useRedirectOnStart();
 
   const { id } = useParams<{ id: string }>();
-  const lobby = useLobbyQuery(id!);
-  useRedirectOnStart();
+  const { lobby, setId } = useLobby();
+
+  useEffect(() => {
+    id && setId(id);
+  }, [id, setId]);
 
   if (!lobby) {
     return null;

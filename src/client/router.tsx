@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Flex, Loader } from '@mantine/core';
 import { Box } from './components';
+import { LobbyProvider } from './util';
 
 const Home = lazy(() => import('./pages/home'));
 const Lobby = lazy(() => import('./pages/lobby'));
@@ -24,7 +25,9 @@ export const Router = () => {
         </Box>
       }
     >
-      <RouterProvider router={router} />
+      <LobbyProvider>
+        <RouterProvider router={router} />
+      </LobbyProvider>
     </Suspense>
   );
 };

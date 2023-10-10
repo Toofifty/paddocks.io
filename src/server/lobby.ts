@@ -7,7 +7,7 @@ export class Lobby {
   public game: Game | undefined;
 
   private options: GameOptions = {
-    fieldSize: 10,
+    fieldSize: 8,
     timeLimit: 20,
     superpowers: 'none',
   };
@@ -56,7 +56,10 @@ export class Lobby {
   }
 
   public start() {
-    this.game = new Game(this.options, Object.keys(this.players));
+    this.game = new Game(
+      this.options,
+      this.players.map((player) => player.id)
+    );
   }
 
   public gameStarted() {

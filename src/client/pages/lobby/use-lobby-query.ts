@@ -7,14 +7,14 @@ export const useLobbyQuery = (id: string) => {
   const lastId = useRef<string>();
 
   useEffect(() => {
-    socket.on('lobby-data', setLobby);
+    socket.on('lobby-update', setLobby);
     if (id !== lastId.current) {
       socket.emit('join-lobby', id);
       lastId.current = id;
     }
 
     return () => {
-      socket.off('lobby-data');
+      socket.off('lobby-update');
     };
   }, [id]);
 

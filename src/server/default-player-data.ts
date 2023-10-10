@@ -17,7 +17,7 @@ export const getDefaultPlayerData = (
   return {
     name:
       NAMES[Math.floor(Math.random() * NAMES.length)] +
-      '-' +
+      '_' +
       (Math.random() * 100).toFixed(0),
     avatarId: uniqueOrRandom([0, 1, 2, 3, 4, 5, 6, 7], avatars),
     styleId: uniqueOrRandom([0, 1, 2, 3, 4, 5, 6, 7], styles),

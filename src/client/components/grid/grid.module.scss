@@ -1,0 +1,145 @@
+.grid {
+  //   width: 100%;
+  //   height: 100%;
+  width: 800px;
+  height: 800px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  justify-content: stretch;
+
+  &:nth-child(even) {
+    flex: 2;
+  }
+}
+
+.cell {
+  flex: 1;
+
+  &:nth-child(even) {
+    flex: 2;
+  }
+}
+
+.post {
+}
+
+$overflow: 15%;
+$inset: 35%;
+
+.vertical,
+.horizontal {
+  position: relative;
+
+  &.hoverable {
+    &:hover {
+      cursor: pointer;
+
+      .gate {
+        box-shadow: 0 0 0 4px #999;
+      }
+    }
+
+    &:active {
+      .gate {
+        transform: translateY(2px);
+      }
+    }
+  }
+}
+
+.gate {
+  z-index: 1;
+  position: absolute;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-color: #eee;
+  box-shadow: 0 0 0 0 #999;
+  transition: 0.1s;
+}
+
+:root .gate-filled {
+  z-index: 2;
+  //   border-color: white;
+  //   box-shadow: 0 0 0 4px white;
+}
+
+:root .hide-top-border {
+  border-top-color: transparent;
+
+  &.hide-bottom-border {
+    border-color: transparent;
+  }
+}
+
+:root .hide-left-border {
+  border-left-color: transparent;
+
+  &.hide-right-border {
+    border-color: transparent;
+  }
+}
+
+:root .hide-right-border {
+  border-right-color: transparent;
+}
+
+:root .hide-bottom-border {
+  border-bottom-color: transparent;
+}
+
+.vertical .gate {
+  top: -$overflow;
+  height: 100% + $overflow * 2;
+  left: $inset;
+  width: 100% - $inset * 2;
+}
+
+.horizontal .gate {
+  top: $inset;
+  height: 100% - $inset * 2;
+  left: -$overflow;
+  width: 100% + $overflow * 2;
+}
+
+.paddock {
+  position: relative;
+}
+
+.filled-paddock {
+  position: absolute;
+  left: -25%;
+  top: -25%;
+  width: 150%;
+  height: 150%;
+  z-index: 0;
+  border-width: 2px;
+  border-style: solid;
+  //   border-radius: 8px;
+
+  &.round-top-right {
+    border-top-right-radius: 8px;
+  }
+
+  &.round-top-left {
+    border-top-left-radius: 8px;
+  }
+
+  &.round-bottom-right {
+    border-bottom-right-radius: 8px;
+  }
+
+  &.round-bottom-left {
+    border-bottom-left-radius: 8px;
+  }
+}
+
+.hidden {
+  opacity: 0;
+}

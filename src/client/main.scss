@@ -12,154 +12,163 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23bfbfbf' fill-opacity='0.29' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-$orange: #ff8964;
-$light-orange: #ffd7ca;
-$dark-orange: darken($orange, 20);
+:root {
+  $orange: #ff8964;
+  $light-orange: #ffd7ca;
+  $dark-orange: darken($orange, 20);
 
-.style-0 {
-  background-color: $orange;
-  border-color: $orange;
-  background-image: url(./assets/patterns/style-0.svg);
-}
+  .style-0 {
+    background-color: $orange;
+    border-color: $orange;
+    background-image: url(./assets/patterns/style-0.svg);
+  }
 
-.style-0-block {
-  background-color: $orange;
-  border-color: $light-orange;
-}
+  .style-0-block {
+    background-color: $orange;
+    border-color: $light-orange;
+  }
 
-.style-0-shadow {
-  box-shadow: 0 4px 0 0 $dark-orange;
-}
+  .style-0-shadow {
+    box-shadow: 0 4px 0 1px $dark-orange;
+  }
 
-$blue: #7ac4ed;
-$light-blue: #d4ecf9;
-$dark-blue: darken($blue, 20);
+  $blue: #7ac4ed;
+  $light-blue: #d4ecf9;
+  $dark-blue: darken($blue, 20);
 
-.style-1 {
-  background-color: $blue;
-  border-color: $blue;
-  background-image: url(./assets/patterns/style-1.svg);
-}
+  .style-1 {
+    background-color: $blue;
+    border-color: $blue;
+    background-image: url(./assets/patterns/style-1.svg);
+    background-attachment: fixed;
+  }
 
-.style-1-block {
-  background-color: $blue;
-  border-color: $light-blue;
-}
+  .style-1-block {
+    background-color: $blue;
+    border-color: $light-blue;
+  }
 
-.style-1-shadow {
-  box-shadow: 0 4px 0 0 $dark-blue;
-}
+  .style-1-shadow {
+    box-shadow: 0 4px 0 1px $dark-blue;
+  }
 
-$green: #84ed7a;
-$light-green: #d7f9d4;
-$dark-green: darken($green, 20);
+  $green: #84ed7a;
+  $light-green: #d7f9d4;
+  $dark-green: darken($green, 20);
 
-.style-2 {
-  background-color: $green;
-  border-color: $green;
-  background-image: url(./assets/patterns/style-2.svg);
-}
+  .style-2 {
+    background-color: $green;
+    border-color: $green;
+    background-image: url(./assets/patterns/style-2.svg);
+    background-attachment: fixed;
+  }
 
-.style-2-block {
-  background-color: $green;
-  border-color: $light-green;
-}
+  .style-2-block {
+    background-color: $green;
+    border-color: $light-green;
+  }
 
-.style-2-shadow {
-  box-shadow: 0 4px 0 0 $dark-green;
-}
+  .style-2-shadow {
+    box-shadow: 0 4px 0 1px $dark-green;
+  }
 
-$pink: #ff64d4;
-$light-pink: #ffcaf0;
-$dark-pink: darken($pink, 20);
+  $pink: #ff64d4;
+  $light-pink: #ffcaf0;
+  $dark-pink: darken($pink, 20);
 
-.style-3 {
-  background-color: $pink;
-  border-color: $pink;
-  background-image: url(./assets/patterns/style-3.svg);
-}
+  .style-3 {
+    background-color: $pink;
+    border-color: $pink;
+    background-image: url(./assets/patterns/style-3.svg);
+    background-attachment: fixed;
+  }
 
-.style-3-block {
-  background-color: $pink;
-  border-color: $light-pink;
-}
+  .style-3-block {
+    background-color: $pink;
+    border-color: $light-pink;
+  }
 
-.style-3-shadow {
-  box-shadow: 0 4px 0 0 $dark-pink;
-}
+  .style-3-shadow {
+    box-shadow: 0 4px 0 1px $dark-pink;
+  }
 
-$red: #ff6782;
-$light-red: #ffcdd6;
-$dark-red: darken($red, 20);
+  $red: #ff6782;
+  $light-red: #ffcdd6;
+  $dark-red: darken($red, 20);
 
-.style-4 {
-  background-color: $red;
-  border-color: $red;
-  background-image: url(./assets/patterns/style-4.svg);
-}
+  .style-4 {
+    background-color: $red;
+    border-color: $red;
+    background-image: url(./assets/patterns/style-4.svg);
+    background-attachment: fixed;
+  }
 
-.style-4-block {
-  background-color: $red;
-  border-color: $light-red;
-}
+  .style-4-block {
+    background-color: $red;
+    border-color: $light-red;
+  }
 
-.style-4-shadow {
-  box-shadow: 0 4px 0 0 $dark-red;
-}
+  .style-4-shadow {
+    box-shadow: 0 4px 0 1px $dark-red;
+  }
 
-$lime: #d2de4e;
-$light-lime: #e8eea4;
-$dark-lime: darken($lime, 20);
+  $lime: #d2de4e;
+  $light-lime: #e8eea4;
+  $dark-lime: darken($lime, 20);
 
-.style-5 {
-  background-color: $lime;
-  border-color: $lime;
-  background-image: url(./assets/patterns/style-5.svg);
-}
+  .style-5 {
+    background-color: $lime;
+    border-color: $lime;
+    background-image: url(./assets/patterns/style-5.svg);
+    background-attachment: fixed;
+  }
 
-.style-5-block {
-  background-color: $lime;
-  border-color: $light-lime;
-}
+  .style-5-block {
+    background-color: $lime;
+    border-color: $light-lime;
+  }
 
-.style-5-shadow {
-  box-shadow: 0 4px 0 0 $dark-lime;
-}
+  .style-5-shadow {
+    box-shadow: 0 4px 0 1px $dark-lime;
+  }
 
-$purple: #8f67ff;
-$light-purple: #dacdff;
-$dark-purple: darken($purple, 20);
+  $purple: #8f67ff;
+  $light-purple: #dacdff;
+  $dark-purple: darken($purple, 20);
 
-.style-6 {
-  background-color: $purple;
-  border-color: $purple;
-  background-image: url(./assets/patterns/style-6.svg);
-}
+  .style-6 {
+    background-color: $purple;
+    border-color: $purple;
+    background-image: url(./assets/patterns/style-6.svg);
+    background-attachment: fixed;
+  }
 
-.style-6-block {
-  background-color: $purple;
-  border-color: $light-purple;
-}
+  .style-6-block {
+    background-color: $purple;
+    border-color: $light-purple;
+  }
 
-.style-6-shadow {
-  box-shadow: 0 4px 0 0 $dark-purple;
-}
+  .style-6-shadow {
+    box-shadow: 0 4px 0 1px $dark-purple;
+  }
 
-$cyan: #3ce5e5;
-$light-cyan: #96f1f1;
-$dark-cyan: darken($cyan, 20);
+  $cyan: #3ce5e5;
+  $light-cyan: #96f1f1;
+  $dark-cyan: darken($cyan, 20);
 
-.style-7 {
-  background-color: $cyan;
-  border-color: $cyan;
-  background-image: url(./assets/patterns/style-7.svg);
-}
+  .style-7 {
+    background-color: $cyan;
+    border-color: $cyan;
+    background-image: url(./assets/patterns/style-7.svg);
+    background-attachment: fixed;
+  }
 
-.style-7-block {
-  background-color: $cyan;
-  border-color: $light-cyan;
-}
+  .style-7-block {
+    background-color: $cyan;
+    border-color: $light-cyan;
+  }
 
-.style-7-shadow {
-  box-shadow: 0 4px 0 0 $dark-cyan;
+  .style-7-shadow {
+    box-shadow: 0 4px 0 1px $dark-cyan;
+  }
 }

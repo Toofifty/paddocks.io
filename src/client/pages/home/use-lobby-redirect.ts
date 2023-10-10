@@ -7,12 +7,12 @@ export const useLobbyRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.once('lobby-data', (data: LobbyData) => {
+    socket.once('lobby-update', (data: LobbyData) => {
       navigate(`/lobby/${data.id}`);
     });
 
     return () => {
-      socket.off('lobby-data');
+      socket.off('lobby-update');
     };
   }, [navigate]);
 };

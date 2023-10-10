@@ -22,10 +22,10 @@ export class Game {
         return { kind: 'post' };
       }
       if (x % 2 === 0) {
-        return { kind: 'horizontal' };
+        return { kind: 'vertical' };
       }
       if (y % 2 === 0) {
-        return { kind: 'vertical' };
+        return { kind: 'horizontal' };
       }
       return { kind: 'paddock' };
     });
@@ -44,7 +44,7 @@ export class Game {
   }
 
   isGate(x: number, y: number) {
-    return x % 2 === 1 && y % 2 === 1;
+    return x % 2 !== y % 2;
   }
 
   place(x: number, y: number, player: string) {
@@ -59,11 +59,14 @@ export class Game {
       throw new Error('Gate is already placed');
     }
     cell.owner = player;
-    this.computePaddocks(player);
-    this.nextTurn();
+    const claimed = this.computePaddocks(player);
+    if (claimed === 0) {
+      this.nextTurn();
+    }
   }
 
   computePaddocks(player: string) {
+    let claimed = 0;
     for (let y = 1; y < this.size; y += 2) {
       for (let x = 1; x < this.size; x += 2) {
         const cell = this.get(x, y);
@@ -74,10 +77,12 @@ export class Game {
           const west = this.get(x - 1, y);
           if (north.owner && east.owner && south.owner && west.owner) {
             cell.owner = player;
+            claimed++;
           }
         }
       }
     }
+    return claimed;
   }
 
   nextTurn() {

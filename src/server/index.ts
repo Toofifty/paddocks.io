@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
   socket.on('host', () => {
     const id = nanoid();
     lobbies[id] = new Lobby(id, socket.id);
-    io.emit('lobby-data', lobbies[id].getData());
+    io.emit('lobby-update', lobbies[id].getData());
     socket.join(id);
     console.log('create lobby', id);
   });
@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
         throw new Error('Lobby does not exist!');
       }
       lobby.join(socket.id);
-      io.emit('lobby-data', lobby.getData());
+      io.emit('lobby-update', lobby.getData());
       socket.join(id);
     } catch (e: unknown) {
       if (e instanceof Error) socket.emit('error', e.message);
@@ -71,7 +71,7 @@ io.on('connection', (socket) => {
         throw new Error('Only the lobby host can change settings');
       }
       lobby.setOption(key, value);
-      io.to(id).emit('lobby-data', lobby.getData());
+      io.to(id).emit('lobby-update', lobby.getData());
     } catch (e: unknown) {
       if (e instanceof Error) socket.emit('error', e.message);
       else throw e;
@@ -90,8 +90,22 @@ io.on('connection', (socket) => {
       lobby.start();
       io.to(id).emit('game-starting');
       setTimeout(() => {
-        io.to(id).emit('game-data', lobby.game?.getData());
+        io.to(id).emit('game-update', lobby.game?.getData());
       }, 1000);
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
+  socket.on('place', ([id, x, y]) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      lobby.game?.place(x, y, socket.id);
+      io.to(id).emit('game-update', lobby.game?.getData());
     } catch (e: unknown) {
       if (e instanceof Error) socket.emit('error', e.message);
       else throw e;
@@ -105,7 +119,7 @@ io.on('connection', (socket) => {
           console.log('destroy lobby', lobbyId);
           delete lobbies[lobbyId];
         } else {
-          io.to(lobbyId).emit('lobby-data', lobby.getData());
+          io.to(lobbyId).emit('lobby-update', lobby.getData());
         }
       }
     });
