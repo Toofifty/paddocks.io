@@ -1,38 +1,10 @@
 import { GameOptions, LobbyData, PlayerData } from '../common/data';
-
-const shuffle = <T>(array: T[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-};
-
-const NAMES = ['Bort', 'Dork', 'Dingus', 'Doofus', 'Goofer'];
-
-const defaultPlayer = (others: PlayerData[]): Omit<PlayerData, 'id'> => {
-  const avatars = others.map((p) => p.avatarId);
-  const styles = others.map((p) => p.styleId);
-
-  return {
-    name:
-      NAMES[Math.floor(Math.random() * NAMES.length)] +
-      '-' +
-      (Math.random() * 100).toFixed(0),
-    avatarId:
-      shuffle([0, 1, 2, 3, 4, 5, 6, 7]).find((i) => !avatars.includes(i)) ??
-      shuffle([0, 1, 2, 3, 4, 5, 6, 7])[0],
-    styleId:
-      shuffle([0, 1, 2, 3, 4, 5, 6, 7]).find((i) => !styles.includes(i)) ??
-      shuffle([0, 1, 2, 3, 4, 5, 6, 7])[0],
-  };
-};
+import { getDefaultPlayerData } from './default-player-data';
+import { Game } from './game';
 
 export class Lobby {
-  private started = false;
   private players: PlayerData[] = [];
+  public game: Game | undefined;
 
   private options: GameOptions = {
     fieldSize: 10,
@@ -40,10 +12,10 @@ export class Lobby {
     superpowers: 'none',
   };
 
-  constructor(private readonly id: string, private hostId: string) {}
+  constructor(private id: string, private hostId: string) {}
 
   public join(playerId: string, playerData?: Omit<PlayerData, 'id'>) {
-    if (this.started) {
+    if (this.gameStarted()) {
       throw new Error('Game already started!');
     }
 
@@ -62,7 +34,7 @@ export class Lobby {
     } else {
       this.players.push({
         id: playerId,
-        ...(playerData ?? defaultPlayer(this.players)),
+        ...(playerData ?? getDefaultPlayerData(this.players)),
       });
     }
   }
@@ -83,8 +55,12 @@ export class Lobby {
     return false;
   }
 
+  public start() {
+    this.game = new Game(this.options, Object.keys(this.players));
+  }
+
   public gameStarted() {
-    return this.started;
+    return !!this.game;
   }
 
   public isHost(playerId: string) {

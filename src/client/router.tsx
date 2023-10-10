@@ -10,7 +10,7 @@ const Game = lazy(() => import('./pages/game'));
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/lobby/:id', element: <Lobby /> },
-  { path: '/game/:id', element: <Game /> },
+  { path: '/game', element: <Game /> },
 ]);
 
 export const Router = () => {

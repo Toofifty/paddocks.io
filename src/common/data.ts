@@ -19,3 +19,24 @@ export type GameOptions = {
 };
 
 export type Superpower = 'none' | 'timid' | 'mild' | 'chaotic';
+
+export type GameData = {
+  grid: PaddocksGrid;
+  players: Record<string, GamePlayer>;
+  turn: string;
+};
+
+export type GamePlayer = {
+  score: number;
+};
+
+export type GateCellKind = 'post' | 'horizontal' | 'vertical' | 'paddock';
+
+export type GateCell = {
+  kind: GateCellKind;
+  owner?: string;
+};
+
+/**
+ */
+export type PaddocksGrid = GateCell[];

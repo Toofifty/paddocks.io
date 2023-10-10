@@ -78,6 +78,26 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('start-game', (id) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      if (!lobby.isHost(socket.id)) {
+        throw new Error('Only the lobby host can start the game');
+      }
+      lobby.start();
+      io.to(id).emit('game-starting');
+      setTimeout(() => {
+        io.to(id).emit('game-data', lobby.game?.getData());
+      }, 1000);
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
   socket.on('disconnect', () => {
     Object.entries(lobbies).forEach(([lobbyId, lobby]) => {
       if (lobby.hasPlayer(socket.id)) {

@@ -11,12 +11,14 @@ import { useLobbyQuery } from './use-lobby-query';
 import { useParams } from 'react-router-dom';
 import { socket } from '../../socket';
 import { useErrorMessages } from '../../util';
+import { useRedirectOnStart } from './use-redirect-on-start';
 
 export const LobbyPage = () => {
   useErrorMessages();
 
   const { id } = useParams<{ id: string }>();
   const lobby = useLobbyQuery(id!);
+  useRedirectOnStart();
 
   if (!lobby) {
     return null;
@@ -32,6 +34,10 @@ export const LobbyPage = () => {
 
   const setSuperpowers = (superpowers: string) => {
     socket.emit('set-lobby-option', [id, 'superpowers', superpowers]);
+  };
+
+  const onStartGame = () => {
+    socket.emit('start-game', id);
   };
 
   return (
@@ -113,7 +119,11 @@ export const LobbyPage = () => {
             />
             <Flex gap="lg">
               {lobby.hostId === socket.id && (
-                <Button color="#84ED7A" disabled={lobby.players.length < 2}>
+                <Button
+                  color="#84ED7A"
+                  disabled={lobby.players.length < 2}
+                  onClick={onStartGame}
+                >
                   Start game
                 </Button>
               )}
