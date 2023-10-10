@@ -6,17 +6,19 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { Box, Button, Player } from '../../components';
+import { Box, Button, Header, Player } from '../../components';
 import { useLobbyQuery } from './use-lobby-query';
 import { useParams } from 'react-router-dom';
 import { socket } from '../../socket';
+import { useErrorMessages } from '../../util';
 
 export const LobbyPage = () => {
+  useErrorMessages();
+
   const { id } = useParams<{ id: string }>();
   const lobby = useLobbyQuery(id!);
 
   if (!lobby) {
-    // todo
     return null;
   }
 
@@ -35,15 +37,16 @@ export const LobbyPage = () => {
   return (
     <Box>
       <Stack align="center">
-        <Title order={1}>- Super Paddocks -</Title>
+        <Header />
+        <Title order={2}>
+          Lobby code:{' '}
+          <Text component="span" fz="inherit" variant="gradient">
+            {lobby?.id}
+          </Text>
+        </Title>
         <Flex justify="space-between" gap="xl">
           <Stack>
-            <Title order={2}>
-              <Text component="span" fz="inherit" variant="gradient">
-                {lobby?.id}
-              </Text>{' '}
-              Settings
-            </Title>
+            <Title order={2}>Settings</Title>
             <Text size="xl">
               Field size:{' '}
               <Text variant="gradient" component="span">
@@ -120,12 +123,13 @@ export const LobbyPage = () => {
           <Stack miw="400px">
             <Title order={2}>
               <Text variant="gradient" component="span" fz="inherit">
-                {lobby.players.length} / 8 Players
-              </Text>
+                {lobby.players.length} / 8
+              </Text>{' '}
+              Players
             </Title>
             <Flex wrap="wrap" align="flex-start" gap="md">
               {lobby.players.map((player) => (
-                <Player key={player.id} {...player} />
+                <Player key={player.id} currentId={socket.id} {...player} />
               ))}
             </Flex>
           </Stack>

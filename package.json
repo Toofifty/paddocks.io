@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.11.0",
     "@mantine/core": "^7.1.2",
     "@mantine/hooks": "^7.1.2",
+    "@mantine/notifications": "^7.1.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "nanoid": "^5.0.1",

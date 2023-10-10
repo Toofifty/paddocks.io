@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { lazy } from 'react';
+import { Suspense, lazy } from 'react';
+import { Flex, Loader } from '@mantine/core';
+import { Box } from './components';
 
 const Home = lazy(() => import('./pages/home'));
 const Lobby = lazy(() => import('./pages/lobby'));
@@ -11,4 +13,18 @@ const router = createBrowserRouter([
   { path: '/game/:id', element: <Game /> },
 ]);
 
-export const Router = () => <RouterProvider router={router} />;
+export const Router = () => {
+  return (
+    <Suspense
+      fallback={
+        <Box>
+          <Flex justify="center">
+            <Loader py="xl" />
+          </Flex>
+        </Box>
+      }
+    >
+      <RouterProvider router={router} />
+    </Suspense>
+  );
+};

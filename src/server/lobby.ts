@@ -19,7 +19,8 @@ const defaultPlayer = (others: PlayerData[]): Omit<PlayerData, 'id'> => {
   return {
     name:
       NAMES[Math.floor(Math.random() * NAMES.length)] +
-      (Math.random() * 1000).toFixed(0),
+      '-' +
+      (Math.random() * 100).toFixed(0),
     avatarId:
       shuffle([0, 1, 2, 3, 4, 5, 6, 7]).find((i) => !avatars.includes(i)) ??
       shuffle([0, 1, 2, 3, 4, 5, 6, 7])[0],
@@ -42,8 +43,6 @@ export class Lobby {
   constructor(private readonly id: string, private hostId: string) {}
 
   public join(playerId: string, playerData?: Omit<PlayerData, 'id'>) {
-    console.log(this.players);
-
     if (this.started) {
       throw new Error('Game already started!');
     }
@@ -53,11 +52,12 @@ export class Lobby {
     }
 
     if (this.hasPlayer(playerId)) {
-      if (!playerData) {
-        throw new Error('Game already joined');
-      }
       const index = this.players.findIndex((p) => p.id === playerId);
-      this.players[index] = { id: playerId, ...playerData };
+      this.players[index] = {
+        ...this.players[index],
+        id: playerId,
+        ...playerData,
+      };
       return;
     } else {
       this.players.push({
