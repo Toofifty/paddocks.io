@@ -25,7 +25,7 @@ export const HomePage = () => {
     <Box>
       <Stack align="center">
         <Header />
-        <Button color="#FF8964" mb="lg" onClick={onHost}>
+        <Button color="orange" mb="lg" onClick={onHost}>
           Host new game
         </Button>
         <Title order={2}>Join a game</Title>
@@ -46,33 +46,6 @@ export const HomePage = () => {
               </Button>
             ))}
         </Flex>
-        {/* <Flex gap="xl" wrap="wrap">
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <div
-              key={i}
-              className={`style-${i}`}
-              style={{
-                padding: 60,
-                borderWidth: 4,
-                borderStyle: 'solid',
-                borderRadius: 8,
-              }}
-            >
-              <p
-                className={`style-${i}-block`}
-                style={{
-                  borderWidth: 3,
-                  borderStyle: 'solid',
-                  borderRadius: 8,
-                  padding: 10,
-                  color: 'white',
-                }}
-              >
-                Style {i}
-              </p>
-            </div>
-          ))}
-        </Flex> */}
       </Stack>
     </Box>
   );

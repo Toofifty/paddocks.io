@@ -129,14 +129,14 @@ export const LobbyPage = () => {
               <Flex gap="lg">
                 {lobby.hostId === socket.id && (
                   <Button
-                    color="#84ED7A"
+                    color="green"
                     disabled={lobby.players.length < 2}
                     onClick={onStartGame}
                   >
                     Start game
                   </Button>
                 )}
-                <Button color="#7AC4ED">Copy link</Button>
+                <Button color="blue">Copy link</Button>
               </Flex>
             </Stack>
             <Stack miw="400px">

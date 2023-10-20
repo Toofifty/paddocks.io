@@ -3,22 +3,30 @@
   font-weight: 400;
   font-family: 'Staatliches';
 
-  background-color: var(--p-button-color);
-  border-color: var(--p-border-color);
+  background-color: var(--sp-color);
+  border-color: var(--sp-color-light);
   border-width: 4px !important;
 
   transition: 0.1s;
-  box-shadow: 0 4px 0 0px var(--p-shadow-color);
+  box-shadow: 0 4px 0 0px var(--sp-color-dark);
+
+  &:disabled {
+    color: #eee;
+    background-color: #ddd;
+    border-color: #eee;
+    box-shadow: 0 4px 0 0px #ccc;
+    border-style: solid;
+  }
 
   &:not(:disabled) {
     &:hover {
-      box-shadow: 0 8px 0 2px var(--p-shadow-color);
+      box-shadow: 0 8px 0 2px var(--sp-color-dark);
       transform: translateY(-4px);
     }
 
     &:active {
       transform: translateY(2px);
-      box-shadow: 0 4px 0 2px var(--p-shadow-color);
+      box-shadow: 0 4px 0 2px var(--sp-color-dark);
     }
   }
 }

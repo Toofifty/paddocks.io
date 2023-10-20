@@ -14,7 +14,7 @@ interface AbilityPanelProps {
   currentTurn: boolean;
 }
 
-const colors = ['#84ED7A', '#FF8964', '#ef2101'];
+const colors = ['green', 'orange', 'red'] as const;
 
 export const AbilityPanel = ({ player, currentTurn }: AbilityPanelProps) => {
   const { lobby } = useLobby();
@@ -46,11 +46,8 @@ export const AbilityPanel = ({ player, currentTurn }: AbilityPanelProps) => {
             >
               <Button
                 className={styles.ability}
-                color={
-                  usedThisTurn || amount === 0
-                    ? '#777777'
-                    : colors[ability.level - 1]
-                }
+                disabled={usedThisTurn || amount === 0}
+                color={colors[ability.level - 1]}
                 onClick={() => activate(kind as AbilityKind)}
               >
                 <AbilityIcon kind={kind as AbilityKind} />

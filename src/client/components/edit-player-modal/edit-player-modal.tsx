@@ -73,7 +73,7 @@ export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
                 getAudioById(i)?.play();
                 setAudio(i);
               }}
-              color={audioId === i ? '#7AC4ED' : '#FF8964'}
+              color={audioId === i ? 'blue' : 'orange'}
               miw="100px"
             >
               {i + 1} <img src={AudioSVG} style={{ marginLeft: 10 }} />
@@ -81,14 +81,14 @@ export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
           ))}
           <Button
             onClick={() => setAudio(-1)}
-            color={audioId === -1 ? '#7AC4ED' : '#FF8964'}
+            color={audioId === -1 ? 'blue' : 'orange'}
             miw="100px"
           >
             None
           </Button>
         </Flex>
       </Stack>
-      <Button onClick={onClose} color="#84ED7A">
+      <Button onClick={onClose} color="green">
         Done
       </Button>
     </Modal>

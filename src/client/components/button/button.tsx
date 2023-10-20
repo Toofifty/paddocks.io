@@ -1,15 +1,12 @@
 import { ReactNode, forwardRef } from 'react';
-import {
-  Button as MantineButton,
-  MantineStyleProps,
-  darken,
-  lighten,
-} from '@mantine/core';
+import cx from 'classnames';
+import { Button as MantineButton, MantineStyleProps } from '@mantine/core';
 
 import styles from './button.module.scss';
+import { PrimaryColor } from '../../colors';
 
 interface ButtonProps extends MantineStyleProps {
-  color?: string;
+  color?: PrimaryColor;
   children?: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
@@ -17,23 +14,12 @@ interface ButtonProps extends MantineStyleProps {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ color, ...props }, ref) => {
-    color = props.disabled ? '#DFDFDF' : color;
-    const borderColor = color ? lighten(color, 0.5) : 'white';
-    const shadowColor = color ? darken(color, 0.2) : 'black';
-
-    return (
-      <MantineButton
-        ref={ref}
-        h="60"
-        classNames={{ root: styles.button }}
-        style={{
-          '--p-button-color': color,
-          '--p-border-color': borderColor,
-          '--p-shadow-color': shadowColor,
-        }}
-        {...props}
-      />
-    );
-  }
+  ({ color, ...props }, ref) => (
+    <MantineButton
+      ref={ref}
+      h="60"
+      {...props}
+      className={cx(color, styles.button, props.className)}
+    />
+  )
 );
