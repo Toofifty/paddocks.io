@@ -13,6 +13,7 @@ interface ButtonProps extends MantineStyleProps {
   children?: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  className?: string;
 }
 
 export const Button = ({ color, ...props }: ButtonProps) => {

@@ -39,6 +39,17 @@ export class Lobby {
     }
   }
 
+  public customize(playerId: string, playerData: Omit<PlayerData, 'id'>) {
+    if (this.hasPlayer(playerId)) {
+      const index = this.players.findIndex((p) => p.id === playerId);
+      this.players[index] = {
+        ...this.players[index],
+        id: playerId,
+        ...playerData,
+      };
+    }
+  }
+
   public hasPlayer(playerId: string) {
     return this.players.find((p) => p.id === playerId);
   }

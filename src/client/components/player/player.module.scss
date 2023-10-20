@@ -1,4 +1,26 @@
 :root .player {
   border-width: 4px;
   font-family: 'Staatliches';
+  position: relative;
+}
+
+:root .you {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: 'Staatliches';
+
+  border-width: 4px !important;
+
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 25%);
+
+  &:active {
+    transform: translate(-50%, 30%);
+  }
+}
+
+.edit {
+  height: 16px;
 }

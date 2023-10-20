@@ -61,6 +61,20 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('customize', ([id, data]) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      lobby.customize(socket.id, data);
+      io.emit('lobby-update', lobby.getData());
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
   socket.on('set-lobby-option', ([id, key, value]) => {
     try {
       const lobby = lobbies[id];
