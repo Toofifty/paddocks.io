@@ -126,6 +126,35 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('place-two', ([id, x1, y1, x2, y2]) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      lobby.game?.placeTwo(x1, y1, x2, y2, socket.id);
+      io.to(id).emit('game-update', lobby.game?.getData());
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
+  socket.on('use-ability', ([id, ability]) => {
+    try {
+      const lobby = lobbies[id];
+      if (!lobby) {
+        throw new Error('Lobby does not exist!');
+      }
+      lobby.game?.useAbility(ability, socket.id);
+      io.to(id).emit('ability-used', ability);
+      io.to(id).emit('game-update', lobby.game?.getData());
+    } catch (e: unknown) {
+      if (e instanceof Error) socket.emit('error', e.message);
+      else throw e;
+    }
+  });
+
   socket.on('disconnect', () => {
     Object.entries(lobbies).forEach(([lobbyId, lobby]) => {
       if (lobby.hasPlayer(socket.id)) {

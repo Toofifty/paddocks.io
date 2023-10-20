@@ -54,6 +54,7 @@ export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
         <Flex gap="xs" wrap="wrap">
           {new Array(8).fill(0).map((_, i) => (
             <Button
+              key={i}
               disabled={usedStyles.includes(i)}
               onClick={() => onChangeStyle(i)}
               className={`style-${i}`}
@@ -67,8 +68,9 @@ export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
         <Flex gap="xs" wrap="wrap">
           {new Array(6).fill(0).map((_, i) => (
             <Button
+              key={i}
               onClick={() => {
-                getAudioById(i).play();
+                getAudioById(i)?.play();
                 setAudio(i);
               }}
               color={audioId === i ? '#7AC4ED' : '#FF8964'}

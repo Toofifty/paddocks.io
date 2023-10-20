@@ -1,21 +1,33 @@
+import { abilities } from '../common/abilities';
 import {
+  AbilityKind,
+  AbilityStatus,
   GameData,
   GameOptions,
   GamePlayer,
   PaddocksGrid,
 } from '../common/data';
+import { deepCopy } from './deep-copy';
 import { shuffle } from './shuffle';
+import { useAbilities } from './use-abilities';
 
 export class Game {
-  private players: string[];
-  private turn = 0;
-  private size: number;
-  private grid: PaddocksGrid = [];
+  public players: string[];
+  public turn = 0;
+  public size: number;
+  public lastGrid?: PaddocksGrid;
+  public grid: PaddocksGrid = [];
+  public playerAbilities: Record<
+    string,
+    Partial<Record<AbilityKind, AbilityStatus>>
+  > = {};
+  public activeAbility?: AbilityKind;
 
   constructor(private options: GameOptions, players: string[]) {
     this.players = shuffle(players);
     this.size = options.fieldSize * 2 + 1;
 
+    // build grid
     this.grid = new Array(this.size * this.size).fill(undefined).map((_, i) => {
       const [x, y] = this.toXY(i);
       if (x % 2 === 0 && y % 2 === 0) {
@@ -29,6 +41,20 @@ export class Game {
       }
       return { kind: 'paddock' };
     });
+
+    // fill abilities
+    if (options.superpowers !== 'none') {
+      this.players.forEach((player) => {
+        this.playerAbilities[player] = {};
+        Object.entries(abilities).forEach(([kind, ability]) => {
+          this.playerAbilities[player][kind as AbilityKind] = {
+            amount:
+              ability[options.superpowers as 'timid' | 'mild' | 'chaotic'],
+            usedThisTurn: false,
+          };
+        });
+      });
+    }
   }
 
   toIndex(x: number, y: number) {
@@ -58,7 +84,35 @@ export class Game {
     if (cell.owner) {
       throw new Error('Gate is already placed');
     }
+    this.lastGrid = deepCopy(this.grid);
+
     cell.owner = player;
+    const claimed = this.computePaddocks(player);
+    if (claimed === 0) {
+      this.nextTurn();
+    }
+  }
+
+  placeTwo(x1: number, y1: number, x2: number, y2: number, player: string) {
+    if (
+      !['parallel-place', 'corner-place'].includes(this.activeAbility ?? '')
+    ) {
+      throw new Error("You can't do that right now");
+    }
+    if (this.players[this.turn] !== player) {
+      throw new Error("It's not your turn");
+    }
+    if (!this.isGate(x1, y1) || !this.isGate(x2, y2)) {
+      throw new Error('Invalid placement');
+    }
+    const cell1 = this.grid[this.toIndex(x1, y1)];
+    const cell2 = this.grid[this.toIndex(x2, y2)];
+    if (cell1.owner || cell2.owner) {
+      throw new Error('Gate is already placed');
+    }
+    this.lastGrid = deepCopy(this.grid);
+    cell1.owner = player;
+    cell2.owner = player;
     const claimed = this.computePaddocks(player);
     if (claimed === 0) {
       this.nextTurn();
@@ -92,18 +146,35 @@ export class Game {
     }
   }
 
-  getScores(): Record<string, GamePlayer> {
-    const scores: Record<string, GamePlayer> = Object.fromEntries(
-      this.players.map((player, order) => [player, { score: 0, order }])
+  useAbility(kind: AbilityKind, player: string) {
+    if (this.players[this.turn] !== player) {
+      throw new Error("It's not your turn");
+    }
+
+    const ability = abilities[kind];
+    useAbilities[kind](this);
+    if (ability.endsTurn) {
+      this.nextTurn();
+    } else {
+      this.activeAbility = kind;
+    }
+  }
+
+  getPlayerData(): Record<string, GamePlayer> {
+    const data: Record<string, GamePlayer> = Object.fromEntries(
+      this.players.map((player, order) => [
+        player,
+        { score: 0, order, abilities: this.playerAbilities[player] },
+      ])
     );
 
     this.grid.forEach((cell) => {
       if (cell.kind === 'paddock' && cell.owner) {
-        scores[cell.owner].score++;
+        data[cell.owner].score++;
       }
     });
 
-    return scores;
+    return data;
   }
 
   getAvailablePaddocks(): number {
@@ -115,9 +186,10 @@ export class Game {
     const available = this.getAvailablePaddocks();
     return {
       grid: this.grid,
-      players: this.getScores(),
+      players: this.getPlayerData(),
       turn: available > 0 ? this.players[this.turn] : '',
       available,
+      activeAbility: this.activeAbility,
     };
   }
 }

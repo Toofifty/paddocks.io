@@ -25,12 +25,27 @@ export type GameData = {
   players: Record<string, GamePlayer>;
   turn: string;
   available: number;
+  activeAbility?: AbilityKind;
 };
 
 export type GamePlayer = {
   order: number;
   score: number;
+  abilities?: Partial<Record<AbilityKind, AbilityStatus>>;
 };
+
+export type AbilityKind =
+  | 'x-shift'
+  | 'y-shift'
+  | 'rotate'
+  | 'parallel-place'
+  | 'corner-place'
+  | 'skip'
+  | 'undo'
+  | 'scramble'
+  | 'super-scramble';
+
+export type AbilityStatus = { amount: number; usedThisTurn: boolean };
 
 export type GateCellKind = 'post' | 'horizontal' | 'vertical' | 'paddock';
 
