@@ -112,11 +112,12 @@ export class Game {
   }
 
   getData(): GameData {
+    const available = this.getAvailablePaddocks();
     return {
       grid: this.grid,
       players: this.getScores(),
-      turn: this.players[this.turn],
-      available: this.getAvailablePaddocks(),
+      turn: available > 0 ? this.players[this.turn] : '',
+      available,
     };
   }
 }
