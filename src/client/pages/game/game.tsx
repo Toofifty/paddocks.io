@@ -1,9 +1,10 @@
-import { Loader } from '@mantine/core';
+import { Flex, Loader } from '@mantine/core';
 import { useGameData } from './use-game-data';
 import { useLobby } from '../../util';
 import { Box } from '../../components';
 import { Grid } from '../../components/grid';
 import { socket } from '../../socket';
+import { PlayerList } from '../../components/player-list';
 
 export const GamePage = () => {
   const { lobby } = useLobby();
@@ -22,14 +23,17 @@ export const GamePage = () => {
   };
 
   return (
-    <Box>
-      <Grid
-        grid={grid}
-        players={lobby.players}
-        turn={turn}
-        currentId={socket.id}
-        onClick={onPlace}
-      />
+    <Box maw="100%" fullHeight>
+      <Flex gap="xl">
+        <Grid
+          grid={grid}
+          players={lobby.players}
+          turn={turn}
+          currentId={socket.id}
+          onClick={onPlace}
+        />
+        <PlayerList players={players} playerData={lobby.players} turn={turn} />
+      </Flex>
     </Box>
   );
 };

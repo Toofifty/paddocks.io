@@ -27,6 +27,7 @@ export type GameData = {
 };
 
 export type GamePlayer = {
+  order: number;
   score: number;
 };
 

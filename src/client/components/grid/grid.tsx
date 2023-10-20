@@ -41,28 +41,13 @@ export const Grid = ({
   const style = { '--cell-size': `${100 / size}%` } as any;
 
   return (
-    <div className={styles.grid} style={style}>
+    <div className={cx(styles.grid, myTurn && styles.active)} style={style}>
       {rows.map((row, y) => (
         <div key={y} className={styles.row}>
           {row.map((cell, x) => {
             const isGate =
               cell.kind === 'vertical' || cell.kind === 'horizontal';
             const isFilledPaddock = cell.kind == 'paddock' && !!cell.owner;
-            const isHidden =
-              (cell.kind === 'horizontal' &&
-                (!get(x, y - 1) || get(x, y - 1)!.owner) &&
-                (!get(x, y + 1) || get(x, y + 1)!.owner)) ||
-              (cell.kind === 'vertical' &&
-                (!get(x - 1, y) || get(x - 1, y)!.owner) &&
-                (!get(x + 1, y) || get(x + 1, y)!.owner));
-            const hideTopBorder =
-              cell.owner && cell.owner === get(x, y - 1)?.owner;
-            const hideLeftBorder =
-              cell.owner && cell.owner === get(x - 1, y)?.owner;
-            const hideRightBorder =
-              cell.owner && cell.owner === get(x + 1, y)?.owner;
-            const hideBottomBorder =
-              cell.owner && cell.owner === get(x, y + 1)?.owner;
 
             const roundTopRight =
               !get(x, y - 2)?.owner && !get(x + 2, y)?.owner;
@@ -78,22 +63,14 @@ export const Grid = ({
                 className={cx(
                   styles.cell,
                   styles[cell.kind],
-                  // isHidden && styles.hidden,
-                  myTurn && !cell.owner && styles.hoverable
+                  cell.owner && isGate && styles['gate-filled']
                 )}
               >
                 {isGate && (
                   <div
                     className={cx(
                       styles.gate,
-                      cell.owner && styles['gate-filled'],
-                      cell.owner && `style-${players[cell.owner].styleId}`,
-                      {
-                        // [styles['hide-top-border']]: hideTopBorder,
-                        // [styles['hide-left-border']]: hideLeftBorder,
-                        // [styles['hide-right-border']]: hideRightBorder,
-                        // [styles['hide-bottom-border']]: hideBottomBorder,
-                      }
+                      cell.owner && `style-${players[cell.owner].styleId}-block`
                     )}
                   />
                 )}

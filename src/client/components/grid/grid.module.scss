@@ -1,12 +1,30 @@
+$overflow: 21%;
+$inset: 40%;
+
 .grid {
-  //   width: 100%;
-  //   height: 100%;
-  width: 800px;
   height: 800px;
+  width: 800px;
 
   display: flex;
   flex-direction: column;
   justify-content: stretch;
+
+  &.active {
+    .vertical:not(.gate-filled),
+    .horizontal:not(.gate-filled) {
+      &:hover {
+        cursor: pointer;
+
+        .gate {
+          box-shadow: 0 0 0 4px #999;
+        }
+      }
+
+      &:active .gate {
+        transform: translateY(2px);
+      }
+    }
+  }
 }
 
 .row {
@@ -21,36 +39,10 @@
 
 .cell {
   flex: 1;
+  position: relative;
 
   &:nth-child(even) {
     flex: 2;
-  }
-}
-
-.post {
-}
-
-$overflow: 15%;
-$inset: 35%;
-
-.vertical,
-.horizontal {
-  position: relative;
-
-  &.hoverable {
-    &:hover {
-      cursor: pointer;
-
-      .gate {
-        box-shadow: 0 0 0 4px #999;
-      }
-    }
-
-    &:active {
-      .gate {
-        transform: translateY(2px);
-      }
-    }
   }
 }
 
@@ -64,10 +56,10 @@ $inset: 35%;
   transition: 0.1s;
 }
 
-:root .gate-filled {
+:root .gate-filled .gate {
   z-index: 2;
-  //   border-color: white;
-  //   box-shadow: 0 0 0 4px white;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px white;
 }
 
 :root .hide-top-border {
@@ -76,22 +68,6 @@ $inset: 35%;
   &.hide-bottom-border {
     border-color: transparent;
   }
-}
-
-:root .hide-left-border {
-  border-left-color: transparent;
-
-  &.hide-right-border {
-    border-color: transparent;
-  }
-}
-
-:root .hide-right-border {
-  border-right-color: transparent;
-}
-
-:root .hide-bottom-border {
-  border-bottom-color: transparent;
 }
 
 .vertical .gate {
@@ -106,10 +82,6 @@ $inset: 35%;
   height: 100% - $inset * 2;
   left: -$overflow;
   width: 100% + $overflow * 2;
-}
-
-.paddock {
-  position: relative;
 }
 
 .filled-paddock {

@@ -1,0 +1,16 @@
+.player {
+  transform: scale(0.8);
+  transition: 0.1s;
+  position: relative;
+
+  &.current {
+    transform: scale(1);
+  }
+}
+
+.crown {
+  position: absolute;
+  left: -15px;
+  top: -20px;
+  transform: rotate(-30deg);
+}

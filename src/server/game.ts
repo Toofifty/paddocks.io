@@ -94,7 +94,7 @@ export class Game {
 
   getScores(): Record<string, GamePlayer> {
     const scores: Record<string, GamePlayer> = Object.fromEntries(
-      this.players.map((player) => [player, { score: 0 }])
+      this.players.map((player, order) => [player, { score: 0, order }])
     );
 
     this.grid.forEach((cell) => {
