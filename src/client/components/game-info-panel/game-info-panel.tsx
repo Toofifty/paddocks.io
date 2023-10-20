@@ -19,10 +19,11 @@ export const GameInfoPanel = ({ game, lobby }: GameInfoPanelProps) => {
     () =>
       Object.entries(game.players)
         .sort(([, a], [, b]) => a.order - b.order)
-        .map(([id, { score }]) => {
+        .map(([id, { score, abilities }]) => {
           const data = lobby.players.find((p) => p.id === id)!;
           return {
             score,
+            abilities,
             ...data,
           };
         }),

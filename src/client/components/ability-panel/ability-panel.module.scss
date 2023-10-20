@@ -1,0 +1,21 @@
+.panel {
+  .ability:not(:first-of-type) {
+    margin-left: -40px;
+  }
+
+  &.active .ability {
+    margin-left: 0px;
+  }
+}
+
+.ability {
+  position: relative;
+  transition: 0.1s;
+}
+
+.amount {
+  position: absolute;
+  bottom: -2px;
+  left: 2px;
+  line-height: 1;
+}

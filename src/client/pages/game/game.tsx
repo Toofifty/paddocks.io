@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Flex, Loader, useMantineTheme } from '@mantine/core';
+import { Flex, Loader, Stack, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 import { useGameData } from './use-game-data';
@@ -10,6 +10,7 @@ import { socket } from '../../socket';
 import { GameInfoPanel } from '../../components/game-info-panel';
 import { GameOverModal } from '../../components/game-over-modal';
 import { useAudio } from '../../util/audio';
+import { AbilityPanel } from '../../components/ability-panel';
 
 export const GamePage = () => {
   const { lobby } = useLobby();
@@ -37,6 +38,8 @@ export const GamePage = () => {
     return <Loader />;
   }
 
+  const thisPlayer = game.players[socket.id];
+
   const onPlace = (x: number, y: number) => {
     socket.emit('place', [lobby.id, x, y]);
   };
@@ -50,20 +53,28 @@ export const GamePage = () => {
         playerData={lobby.players}
       />
       <Box maw="min-content">
-        <Flex
-          gap="xl"
-          direction={isMobile ? 'column' : 'row'}
-          align={isMobile ? 'center' : 'flex-start'}
-        >
-          <Grid
-            grid={game.grid}
-            players={lobby.players}
-            turn={game.turn}
-            currentId={socket.id}
-            onClick={onPlace}
-          />
-          <GameInfoPanel game={game} lobby={lobby} />
-        </Flex>
+        <Stack>
+          {lobby.options.superpowers != 'none' && (
+            <AbilityPanel
+              player={thisPlayer}
+              currentTurn={game.turn === socket.id}
+            />
+          )}
+          <Flex
+            gap="xl"
+            direction={isMobile ? 'column' : 'row'}
+            align={isMobile ? 'center' : 'flex-start'}
+          >
+            <Grid
+              grid={game.grid}
+              players={lobby.players}
+              turn={game.turn}
+              currentId={socket.id}
+              onClick={onPlace}
+            />
+            <GameInfoPanel game={game} lobby={lobby} />
+          </Flex>
+        </Stack>
       </Box>
     </>
   );

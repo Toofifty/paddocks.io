@@ -3,6 +3,7 @@ import { Stack } from '@mantine/core';
 import { PlayerListItem } from './player-list-item';
 
 import styles from './player-list.module.scss';
+import { AbilityKind, AbilityStatus } from '../../../common/data';
 
 interface PlayerListProps {
   players: {
@@ -11,6 +12,7 @@ interface PlayerListProps {
     avatarId: number;
     styleId: number;
     score: number;
+    abilities?: Partial<Record<AbilityKind, AbilityStatus>>;
   }[];
   turn: string;
   rankings: Record<string, number>;

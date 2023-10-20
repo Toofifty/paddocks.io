@@ -1,0 +1,9 @@
+export { default as CornerPlace } from './corner-place.svg';
+export { default as ParallelPlace } from './parallel-place.svg';
+export { default as Rotate } from './rotate.svg';
+export { default as Scramble } from './scramble.svg';
+export { default as Skip } from './skip.svg';
+export { default as SuperScramble } from './super-scramble.svg';
+export { default as Undo } from './undo.svg';
+export { default as XShift } from './x-shift.svg';
+export { default as YShift } from './y-shift.svg';

@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
 import cx from 'classnames';
-import { Flex, Paper, Text } from '@mantine/core';
+import { Flex, Paper, Stack, Text } from '@mantine/core';
 
 import CrownSVG from '../../assets/crown.svg';
 
 import styles from './player-list-item.module.scss';
+import { AbilityKind, AbilityStatus } from '../../../common/data';
+import { AbilityIcon } from '../ability-icon/ability-icon';
 
 interface PlayerListItemProps {
   name: string;
@@ -13,6 +15,7 @@ interface PlayerListItemProps {
   score: number;
   current: boolean;
   place: number;
+  abilities?: Partial<Record<AbilityKind, AbilityStatus>>;
 }
 
 const TextBox = ({
@@ -72,6 +75,7 @@ export const PlayerListItem = ({
   score,
   current,
   place,
+  abilities,
 }: PlayerListItemProps) => (
   <Paper
     className={cx(
@@ -85,12 +89,27 @@ export const PlayerListItem = ({
     {place === 1 && score > 0 && (
       <img src={CrownSVG} className={styles.crown} />
     )}
-    <Flex align="center" justify="space-evenly" gap="sm">
-      <Place place={place} styleId={styleId} />
-      <TextBox styleId={styleId}>{name}</TextBox>
-      <TextBox styleId={styleId}>
-        {score} paddock{score !== 1 && 's'}
-      </TextBox>
-    </Flex>
+    <Stack>
+      <Flex align="center" justify="space-evenly" gap="sm">
+        <Place place={place} styleId={styleId} />
+        <TextBox styleId={styleId}>{name}</TextBox>
+        <TextBox styleId={styleId}>
+          {score} paddock{score !== 1 && 's'}
+        </TextBox>
+      </Flex>
+      {abilities && (
+        <Flex ml="lg">
+          {Object.entries(abilities).map(([kind, { amount }]) => {
+            return (
+              <Flex
+                className={cx(styles.ability, amount === 0 && styles.spent)}
+              >
+                <AbilityIcon kind={kind as AbilityKind} />
+              </Flex>
+            );
+          })}
+        </Flex>
+      )}
+    </Stack>
   </Paper>
 );

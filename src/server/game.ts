@@ -15,6 +15,11 @@ export class Game {
   public players: string[];
   public turn = 0;
   public size: number;
+  // state of the grid before the current player's turn
+  // may be equal to current grid
+  public gridBeforeTurn?: PaddocksGrid;
+  // state of the grid before the last player's turn
+  // will never be equal to current grid
   public lastGrid?: PaddocksGrid;
   public grid: PaddocksGrid = [];
   public playerAbilities: Record<
@@ -47,9 +52,14 @@ export class Game {
       this.players.forEach((player) => {
         this.playerAbilities[player] = {};
         Object.entries(abilities).forEach(([kind, ability]) => {
+          const amount =
+            ability[options.superpowers as 'timid' | 'mild' | 'chaotic'];
+          if (amount === 0) {
+            return;
+          }
+
           this.playerAbilities[player][kind as AbilityKind] = {
-            amount:
-              ability[options.superpowers as 'timid' | 'mild' | 'chaotic'],
+            amount,
             usedThisTurn: false,
           };
         });
@@ -84,7 +94,6 @@ export class Game {
     if (cell.owner) {
       throw new Error('Gate is already placed');
     }
-    this.lastGrid = deepCopy(this.grid);
 
     cell.owner = player;
     const claimed = this.computePaddocks(player);
@@ -110,7 +119,7 @@ export class Game {
     if (cell1.owner || cell2.owner) {
       throw new Error('Gate is already placed');
     }
-    this.lastGrid = deepCopy(this.grid);
+
     cell1.owner = player;
     cell2.owner = player;
     const claimed = this.computePaddocks(player);
@@ -140,22 +149,49 @@ export class Game {
   }
 
   nextTurn() {
+    Object.values(this.playerAbilities).forEach((abilities) => {
+      Object.values(abilities).forEach((ability) => {
+        ability.usedThisTurn = false;
+      });
+    });
+
     this.turn++;
     if (this.turn >= this.players.length) {
       this.turn = 0;
     }
+
+    this.lastGrid = this.gridBeforeTurn;
+    this.gridBeforeTurn = deepCopy(this.grid);
   }
 
   useAbility(kind: AbilityKind, player: string) {
     if (this.players[this.turn] !== player) {
       throw new Error("It's not your turn");
     }
+    const hasUsedAbility = Object.values(this.playerAbilities[player]).some(
+      (status) => status.usedThisTurn
+    );
+    if (hasUsedAbility) {
+      throw new Error('You can only use one ability per turn');
+    }
+
+    const status = this.playerAbilities[player][kind];
+    if (!status) {
+      throw new Error("You can't use that ability");
+    }
+    if ((status.amount ?? 0) === 0 || status.usedThisTurn) {
+      throw new Error("You can't use that ability");
+    }
 
     const ability = abilities[kind];
+
     useAbilities[kind](this);
+    status.amount--;
+
     if (ability.endsTurn) {
       this.nextTurn();
     } else {
+      status.usedThisTurn = true;
       this.activeAbility = kind;
     }
   }

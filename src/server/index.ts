@@ -56,8 +56,10 @@ io.on('connection', (socket) => {
       io.emit('lobby-update', lobby.getData());
       socket.join(id);
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -70,8 +72,10 @@ io.on('connection', (socket) => {
       lobby.customize(socket.id, data);
       io.emit('lobby-update', lobby.getData());
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -87,8 +91,10 @@ io.on('connection', (socket) => {
       lobby.setOption(key, value);
       io.to(id).emit('lobby-update', lobby.getData());
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -107,8 +113,10 @@ io.on('connection', (socket) => {
         io.to(id).emit('game-update', lobby.game?.getData());
       }, 1000);
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -121,8 +129,10 @@ io.on('connection', (socket) => {
       lobby.game?.place(x, y, socket.id);
       io.to(id).emit('game-update', lobby.game?.getData());
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -135,8 +145,10 @@ io.on('connection', (socket) => {
       lobby.game?.placeTwo(x1, y1, x2, y2, socket.id);
       io.to(id).emit('game-update', lobby.game?.getData());
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
@@ -150,8 +162,10 @@ io.on('connection', (socket) => {
       io.to(id).emit('ability-used', ability);
       io.to(id).emit('game-update', lobby.game?.getData());
     } catch (e: unknown) {
-      if (e instanceof Error) socket.emit('error', e.message);
-      else throw e;
+      if (e instanceof Error) {
+        socket.emit('error', e.message);
+        console.error(e.message);
+      } else throw e;
     }
   });
 
