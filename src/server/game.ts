@@ -106,11 +106,17 @@ export class Game {
     return scores;
   }
 
+  getAvailablePaddocks(): number {
+    return this.grid.filter((cell) => cell.kind === 'paddock' && !cell.owner)
+      .length;
+  }
+
   getData(): GameData {
     return {
       grid: this.grid,
       players: this.getScores(),
       turn: this.players[this.turn],
+      available: this.getAvailablePaddocks(),
     };
   }
 }

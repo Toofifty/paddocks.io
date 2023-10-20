@@ -2,14 +2,40 @@ $overflow: 21%;
 $inset: 40%;
 
 .grid {
-  height: 800px;
-  width: 800px;
+  height: 300px;
+  width: 300px;
 
   display: flex;
   flex-direction: column;
   justify-content: stretch;
 
+  border-radius: 16px;
+  border: 4px solid transparent;
+
+  @media (min-width: 780px) {
+    height: 400px;
+    width: 400px;
+  }
+
+  @media (min-width: 1080px) {
+    height: 500px;
+    width: 500px;
+  }
+
+  @media (min-width: 1280px) {
+    height: 700px;
+    width: 700px;
+  }
+
+  @media (min-width: 1480px) {
+    height: 900px;
+    width: 900px;
+  }
+
   &.active {
+    background-color: white;
+    border-color: #eee;
+
     .vertical:not(.gate-filled),
     .horizontal:not(.gate-filled) {
       &:hover {

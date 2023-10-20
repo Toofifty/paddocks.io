@@ -7,7 +7,6 @@ import CrownSVG from '../../assets/crown.svg';
 import styles from './player-list-item.module.scss';
 
 interface PlayerListItemProps {
-  id: string;
   name: string;
   avatarId: number;
   styleId: number;
@@ -26,7 +25,7 @@ const TextBox = ({
   <Text
     c="white"
     px="8"
-    fz="xl"
+    fz="24"
     fw="400"
     className={`style-${styleId}-block `}
     display="inline"
@@ -58,7 +57,6 @@ const Place = ({ place, styleId }: { place: number; styleId: number }) => {
       px="8"
       fz="24"
       fw="400"
-      mr="lg"
       className={`style-${styleId}-block `}
       display="inline"
       style={{ borderWidth: 4, borderRadius: 8, borderStyle: 'solid' }}
@@ -69,9 +67,7 @@ const Place = ({ place, styleId }: { place: number; styleId: number }) => {
 };
 
 export const PlayerListItem = ({
-  id,
   name,
-  avatarId,
   styleId,
   score,
   current,
@@ -86,8 +82,10 @@ export const PlayerListItem = ({
     )}
     p="lg"
   >
-    {place === 1 && <img src={CrownSVG} className={styles.crown} />}
-    <Flex align="center" justify="flex-start">
+    {place === 1 && score > 0 && (
+      <img src={CrownSVG} className={styles.crown} />
+    )}
+    <Flex align="center" justify="space-evenly" gap="sm">
       <Place place={place} styleId={styleId} />
       <TextBox styleId={styleId}>{name}</TextBox>
       <TextBox styleId={styleId}>

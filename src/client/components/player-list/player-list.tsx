@@ -51,7 +51,7 @@ export const PlayerList = ({
   );
 
   return (
-    <Stack>
+    <Stack className={styles.playerList}>
       {players.map((player) => (
         <PlayerListItem
           key={player.id}

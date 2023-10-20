@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import cx from 'classnames';
 import { PaddocksGrid, PlayerData } from '../../../common/data';
+import { chunk } from '../../util';
 
 import styles from './grid.module.scss';
-import { chunk } from '../../util';
 
 interface GridProps {
   grid: PaddocksGrid;

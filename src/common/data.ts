@@ -24,6 +24,7 @@ export type GameData = {
   grid: PaddocksGrid;
   players: Record<string, GamePlayer>;
   turn: string;
+  available: number;
 };
 
 export type GamePlayer = {
