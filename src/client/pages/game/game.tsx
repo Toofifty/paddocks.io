@@ -9,10 +9,12 @@ import { Grid } from '../../components/grid';
 import { socket } from '../../socket';
 import { GameInfoPanel } from '../../components/game-info-panel';
 import { GameOverModal } from '../../components/game-over-modal';
+import { useAudio } from '../../util/audio';
 
 export const GamePage = () => {
   const { lobby } = useLobby();
   const game = useGameData();
+  const [audio] = useAudio();
 
   const [gameOverModalOpen, setGameOverModalOpen] = useState(false);
 
@@ -24,6 +26,12 @@ export const GamePage = () => {
       setGameOverModalOpen(true);
     }
   }, [game?.available]);
+
+  useEffect(() => {
+    if (game?.turn === socket.id) {
+      audio?.play();
+    }
+  }, [game?.turn, audio]);
 
   if (!game || !lobby) {
     return <Loader />;

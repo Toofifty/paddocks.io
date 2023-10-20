@@ -2,6 +2,8 @@ import { Flex, Modal, Stack, Text, TextInput } from '@mantine/core';
 import { useLobby } from '../../util';
 import { Button, Player } from '..';
 import { socket } from '../../socket';
+import { getAudioById, useAudio } from '../../util/audio';
+import AudioSVG from '../../assets/volume.svg';
 
 interface EditPlayerModalProps {
   open: boolean;
@@ -10,6 +12,7 @@ interface EditPlayerModalProps {
 
 export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
   const { lobby } = useLobby();
+  const [, audioId, setAudio] = useAudio();
 
   if (!lobby) {
     return null;
@@ -57,6 +60,30 @@ export const EditPlayerModal = ({ open, onClose }: EditPlayerModalProps) => {
               miw="100px"
             ></Button>
           ))}
+        </Flex>
+        <Text fz="lg" mt="lg">
+          Alert
+        </Text>
+        <Flex gap="xs" wrap="wrap">
+          {new Array(6).fill(0).map((_, i) => (
+            <Button
+              onClick={() => {
+                getAudioById(i).play();
+                setAudio(i);
+              }}
+              color={audioId === i ? '#7AC4ED' : '#FF8964'}
+              miw="100px"
+            >
+              {i + 1} <img src={AudioSVG} style={{ marginLeft: 10 }} />
+            </Button>
+          ))}
+          <Button
+            onClick={() => setAudio(-1)}
+            color={audioId === -1 ? '#7AC4ED' : '#FF8964'}
+            miw="100px"
+          >
+            None
+          </Button>
         </Flex>
       </Stack>
       <Button onClick={onClose} color="#84ED7A">
