@@ -20,6 +20,11 @@ jobs:
         with:
           cmd: install --force
 
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
       - name: Build project
         uses: borales/actions-yarn@v3.0.0
         with:
