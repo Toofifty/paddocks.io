@@ -28,7 +28,7 @@ export class Game {
   > = {};
   public activeAbility?: AbilityKind;
 
-  constructor(private options: GameOptions, players: string[]) {
+  constructor(options: GameOptions, players: string[]) {
     this.players = shuffle(players);
     this.size = options.fieldSize * 2 + 1;
 

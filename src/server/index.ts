@@ -2,6 +2,7 @@ import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
+import path from 'path';
 import { Lobby } from './lobby';
 import { customAlphabet } from 'nanoid';
 
@@ -18,13 +19,12 @@ const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 6);
 
 const lobbies: Record<string, Lobby> = {};
 
+app.use(express.static(path.resolve(process.cwd(), 'public')));
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hi :)');
+app.get('/', (_, res) => {
+  res.sendFile(path.resolve(process.cwd(), 'public', 'index.html'));
 });
-
-// const on = (socket: )
 
 io.on('connection', (socket) => {
   console.log(socket.id, 'connected');

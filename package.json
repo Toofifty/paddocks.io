@@ -4,11 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev:client": "vite",
+    "build:client": "tsc && vite build --outDir dist/public",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "server:dev": "bun --bun run src/server/index.ts"
+    "dev:server": "bun --bun run src/server/index.ts",
+    "build:server": "bun --bun build src/server/index.ts --outdir dist/server --target node",
+    "postbuild:server": "npx rexreplace '^(#!.+\\n)?' '$1import { createRequire as createImportMetaRequire } from \"module\"; import.meta.require ||= (id) => createImportMetaRequire(import.meta.url)(id);\\n' -GM dist/server/index.js",
+    "build": "rm -rf dist && yarn build:client && yarn build:server",
+    "run-dist": "cd dist && node server/index.js"
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0",

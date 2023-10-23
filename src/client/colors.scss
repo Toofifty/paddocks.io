@@ -1,7 +1,7 @@
 $colors: orange blue green pink red lime purple cyan;
 
 @each $color in $colors {
-  .#{$color} {
+  .#{'' + $color} {
     --sp-color: var(--#{$color});
     --sp-color-light: var(--#{$color}-light);
     --sp-color-dark: var(--#{$color}-dark);

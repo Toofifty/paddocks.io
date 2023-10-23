@@ -5,8 +5,6 @@ import { PlayerList } from '../player-list';
 
 import { useRankings } from '../../util';
 
-import styles from './game-info-panel.module.scss';
-
 interface GameInfoPanelProps {
   game: GameData;
   lobby: LobbyData;
